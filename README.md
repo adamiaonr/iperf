@@ -197,7 +197,7 @@ Cross-Compiling Tips (OpenWrt)
 * Directory with OpenWrt toolchain binaries in `PATH`, e.g., run:
 
 ```
-$ PATH=$PATH:$HOME/staging_dir/toolchain-mips_24kc_gcc-5.4.0_musl-1.1.16/bin
+$ PATH=$PATH:$HOME/openwrt/staging_dir/toolchain-mips_24kc_gcc-5.4.0_musl-1.1.16/bin
 $ export PATH
 ```
 
