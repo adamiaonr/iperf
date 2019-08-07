@@ -187,3 +187,33 @@ publicly and display publicly, and to permit others to do so.
 
 This code is distributed under a BSD style license, see the LICENSE
 file for complete information.
+
+Cross-Compiling Tips (OpenWrt)
+---------
+
+**Assumptions:**
+
+* OpenWrt toolchain available on your build system (e.g., as described [here](http://federicopfaffendorf.com.ar/building-openwrt-for-raspberry-pi/))
+* Directory with OpenWrt toolchain binaries in `PATH`, e.g., run:
+
+```
+$ PATH=$PATH:$HOME/staging_dir/toolchain-mips_24kc_gcc-5.4.0_musl-1.1.16/bin
+$ export PATH
+```
+
+**Procedure:**
+
+Note: the value of the option `--build` will vary according to the machine you're using.
+
+```
+$ ./configure --build=x86_64 --host=mips-openwrt-linux --disable-shared --enable-static --without-openssl --disable-profiling
+$ make clean; make
+```
+
+The `iperf3` binary should be in `src`.
+Make sure it's built for the architecture of the host system (in this particular case, we're looking for something like `MIPS*`):
+
+```
+$ file src/iperf3
+src/iperf3: ELF 32-bit MSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-, with debug_info, not stripped
+```
