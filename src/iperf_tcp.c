@@ -42,6 +42,7 @@
 #include "iperf_tcp.h"
 #include "net.h"
 #include "cjson.h"
+#include "nihilistic.h"
 
 #if defined(HAVE_FLOWLABEL)
 #include "flowlabel.h"
@@ -90,7 +91,11 @@ iperf_tcp_send(struct iperf_stream *sp)
 	r = Nwrite(sp->socket, sp->buffer, sp->settings->blksize, Ptcp);
 
     if (r < 0)
-        return r;
+    #ifdef IGNORE_WRITE_ERROR_TCP
+    return NET_SOFTERROR;
+    #else
+    return r;
+    #endif
 
     sp->result->bytes_sent += r;
     sp->result->bytes_sent_this_interval += r;

@@ -47,6 +47,7 @@
 #include "net.h"
 #include "cjson.h"
 #include "portable_endian.h"
+#include "nihilistic.h"
 
 #if defined(HAVE_INTTYPES_H)
 # include <inttypes.h>
@@ -228,7 +229,11 @@ iperf_udp_send(struct iperf_stream *sp)
     r = Nwrite(sp->socket, sp->buffer, size, Pudp);
 
     if (r < 0)
+    #ifdef IGNORE_WRITE_ERROR_UDP
+    return NET_SOFTERROR;
+	#else
 	return r;
+	#endif
 
     sp->result->bytes_sent += r;
     sp->result->bytes_sent_this_interval += r;
